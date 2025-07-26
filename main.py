@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import messagebox
 
 class Base_GUI:
     def __init__(self):
@@ -15,31 +15,50 @@ class Base_GUI:
         self.textbox = tk.Text(self.root, height = 3, font = ('Arial', 16))
         self.textbox.pack()
 
-        buttonframe = tk.Frame(self.root)
-        buttonframe.columnconfigure(0 , weight =1) 
-        buttonframe.columnconfigure(1 , weight =1) 
+        self.buttonframe = tk.Frame(self.root)
+        self.buttonframe.columnconfigure(0 , weight =1) 
+        self.buttonframe.columnconfigure(1 , weight =1) 
 
-        btn1 = tk.Button(buttonframe, text="Yes", font = ('Arial', 18))
-        btn1.grid(row=0 , column =0 ,sticky = tk.W + tk.E)
+        self.btn1 = tk.Button(self.buttonframe, text="Yes", font = ('Arial', 18))
+        self.btn1.grid(row=0 , column =0 ,sticky = tk.W + tk.E)
 
 
-        btn2 = tk.Button(buttonframe, text="No", font = ('Arial', 18))
-        btn2.grid(row=0 , column =1, sticky= tk.W + tk.E)
+        self.btn2 = tk.Button(self.buttonframe, text="No", font = ('Arial', 18))
+        self.btn2.grid(row=0 , column =1, sticky= tk.W + tk.E)
         
-        buttonframe.pack(fill = 'x')
+        self.buttonframe.pack(fill = 'x')
 
-        scorebtn = tk.Button(self.root, text = "Show Score!")
-        scorebtn.place(x=350 , y=300, heigh=100, width = 100)
+        self.scorebtn = tk.Checkbutton(self.root, text = "Show Score!")
+        self.scorebtn.bind("<Button-1>", self.check_show_score)
+        self.scorebtn.place(x=350 , y=300, heigh=100, width = 100)
         
         self.score = 0
         
+        self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.root.mainloop()
 
-    def modify_score():
+    def check_show_score(self):
+        if self.check_state.get() == 0:
+              print(self.textbox.get('1.0', tk.END))
+        else: 
+            messagebox.showinfo(title='Score', message=self.textbox.get('1.0',tk.END) )
+            score_label = tk.Label(root, text = self.score , font=('Arial', 12))
+            score_label.place(x=350,y=375)
+
+        
+    def modify_score(self):
         if btn1.checkbutton == 1: 
-            self.score += 1
-    
+                self.score += 1
+
+    def shortcut(self,event):
+        print (event.state)
+        print (event.keysym)
 
 
+    def on_closing(self):
+        if messagebox.askyesno(title = "Done Studying?", message="Franklin thinks you need to keep studying, are you sure?" ):
+             self.root.destroy()
+
+        
 
 Base_GUI()
