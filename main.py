@@ -5,7 +5,24 @@ from flashcards import flashcards_data
 class Base_GUI:
     def __init__(self):
         self.root = tk.Tk()
+         #Main app screen
+        #size and name
+        self.root.geometry("800x400")
+        self.root.title("Franklin Flash")
+        self.root.config(bg= "tan")
         self.root.withdraw()
+
+#starter screen
+        self.splash_root = tk.Toplevel()
+        self.splash_root.title('Franklin Flash starting screen')
+        self.splash_root.label = tk.Label(self.splash_root, text="Welcome to the Franklin Flash! Where learning about computers gets better with computers!", font = ('Arial',18))
+        self.splash_root.geometry("400x400")
+        self.splash_root.config(bg= "tan")
+        self.startbtn = tk.Button(self.splash_root, text= 'Get Started', font= ('Arial',18), command=self.handle_startclick)
+        self.startbtn.config(bg= "red4")
+        self.startbtn.place(x=150 , y=150, height=100, width = 100)
+        
+       
 
         self.cards = flashcards_data
         self.card_place = 0
@@ -13,7 +30,7 @@ class Base_GUI:
         self.showing_question = True
         self.score = 0
         self.card_amount=0
-        
+      
         #button Checks
         self.check_startbutn =  tk.BooleanVar()
         self.check_scorebutn = tk.BooleanVar()
@@ -22,18 +39,7 @@ class Base_GUI:
         self.check_flipbutn = tk.BooleanVar()
         self.check_randomizerbutn = tk.BooleanVar()
         
-        #starter screen
-        self.splash_root = tk.Toplevel()
-        self.splash_root.title('Franklin Flash starting screen')
-        self.splash_root.label = tk.Label(self.splash_root, text="Welcome to the Franklin Flash! Where learning about computers gets better with computers!", font = ('Arial',18))
-        self.splash_root.geometry("400x400")
-        self.startbtn = tk.Button(self.splash_root, text= 'Get Started', font= ('Arial',18), command=self.handle_startclick)
-        self.startbtn.place(x=150 , y=150, height=100, width = 100)
         
-        #Main app screen
-        #size and name
-        self.root.geometry("800x400")
-        self.root.title("Franklin Flash")
 
         #texts within
         self.label = tk.Label(self.root,text = "Look at the the card and mark yes if you know answer and no if you do not.", font = ('Arial', 18))
@@ -47,16 +53,20 @@ class Base_GUI:
         self.textbox.pack()
 
         self.buttonframe = tk.Frame(self.root)
+        self.buttonframe.config(bg="linen")
         self.buttonframe.columnconfigure(0 , weight =1) 
         self.buttonframe.columnconfigure(1 , weight =1) 
 
         self.flipbutn = tk.Button(self.buttonframe, text="Flip", font = ('Arial', 18), command=self.handle_flipclick)
+        self.flipbutn.config(bg= "red4")
         self.flipbutn.grid(row=0 ,column =0, sticky = tk.W + tk.E ,columnspan=2 , padx=10 ,pady=5)
 
         self.yesbutn = tk.Button(self.buttonframe, text="Yes", font = ('Arial', 18), command=self.handle_yesclick)
+        self.yesbutn.config(bg= "red4")
         self.yesbutn.grid(row=1 , column =0 ,sticky = tk.W + tk.E, padx=10 ,pady=5)
 
         self.nobutn = tk.Button(self.buttonframe, text="No", font = ('Arial', 18), command=self.handle_noclick)
+        self.nobutn.config(bg= "red4")
         self.nobutn.grid(row=1 , column =1, sticky= tk.W + tk.E, padx=10 ,pady=5)
         
         self.buttonframe.pack(fill = 'x')
@@ -74,7 +84,7 @@ class Base_GUI:
         self.randomizerbtn.place(x=600 , y=300, heigh=100, width = 100)
 
 
-
+        self.splash_root.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.splash_root.mainloop()
         self.root.mainloop()       
@@ -82,7 +92,7 @@ class Base_GUI:
     def update_textbox(self,text):
         self.textbox.delete('1.0', tk.END)
         self.textbox.insert('1.0', text)
-        self.score_label.config(text=f'{self.score}/{self.card_amount}')
+        self.score_label.config(text=f'{self.score}/{self.card_amount}',bg= 'tan')
 
 
 #Checkboxe functions
