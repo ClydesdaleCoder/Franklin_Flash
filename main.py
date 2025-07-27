@@ -40,7 +40,9 @@ class Base_GUI:
         self.label.pack(padx=20, pady =20)
 
         self.textbox = tk.Text(self.root, height = 3, font = ('Arial', 16))
-        self.textbox.insert("1.0", f"{self.current_card} ")
+        self.textbox.insert("1.0", f"{self.current_card}")
+        self.textbox.bind("<Key>", lambda e: "break")
+        self.textbox.bind("<Button-1>", lambda e: self.textbox.focus_set())
         self.textbox.pack()
 
         self.buttonframe = tk.Frame(self.root)
@@ -75,6 +77,12 @@ class Base_GUI:
         self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.splash_root.mainloop()
         self.root.mainloop()       
+#Helper functions
+    def update_textbox(self,text):
+        self.textbox.delete('1.0', tk.END)
+        self.textbox.insert('1.0', text)
+
+
 #Checkboxe functions
     def check_show_score(self, event=None):
         if self.check_scorebutn.get() == 0:
@@ -89,16 +97,14 @@ class Base_GUI:
             random.shuffle(self.cards)
             self.card_place = 0
             self.showing_question = True
-            self.textbox.delete('1.0', tk.END)
-            self.textbox.insert('1.0', self.cards[self.card_place]["question"])
+            self.update_textbox(self.cards[self.card_place]["question"])
         
         else:
             self.card_place +=1
             if self.card_place >= len(self.cards):
                 self.card_place = 0 
             self.showing_question = True
-            self.textbox.delete('1.0', tk.END)  
-            self.textbox.insert('1.0', self.cards[self.card_place]["question"]) 
+            self.update_textbox(self.cards[self.card_place]["question"])
 
 #click functionalities:        
     def handle_yesclick(self,event=None):
@@ -109,16 +115,14 @@ class Base_GUI:
         if self.card_place >= len(self.cards):
              self.card_place = 0 
         self.showing_question = True
-        self.textbox.delete('1.0', tk.END)  
-        self.textbox.insert('1.0', self.cards[self.card_place]["question"]) 
+        self.update_textbox(self.cards[self.card_place]["question"]) 
 
     def handle_noclick(self,event=None):
         self.card_place +=1
         if self.card_place >= len(self.cards):
             self.card_place = 0
         self.showing_question = True 
-        self.textbox.delete('1.0', tk.END)  
-        self.textbox.insert('1.0', self.cards[self.card_place]["question"]) 
+        self.update_textbox(self.cards[self.card_place]["question"])
     
     def handle_startclick(self, event=None):
          self.splash_root.destroy()
@@ -126,13 +130,11 @@ class Base_GUI:
 
     def handle_flipclick(self,event=None):
         if  self.showing_question:
-            self.textbox.delete('1.0', tk.END)  
-            self.textbox.insert('1.0', self.cards[self.card_place]["answer"])
+            self.update_textbox(self.cards[self.card_place]["answer"])
             self.showing_question = False 
 
         else:
-            self.textbox.delete('1.0', tk.END)  
-            self.textbox.insert('1.0', self.cards[self.card_place]["question"]) 
+            self.update_textbox(self.cards[self.card_place]["question"])
             self.showing_question= True
 
     def on_closing(self):
