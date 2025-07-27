@@ -19,7 +19,7 @@ class Base_GUI:
         self.splash_root.geometry("400x400")
         self.splash_root.config(bg= "tan")
         self.startbtn = tk.Button(self.splash_root, text= 'Get Started', font= ('Arial',18), command=self.handle_startclick)
-        self.startbtn.config(bg= "red4")
+        self.startbtn.config(bg= "red4", fg= "linen")
         self.startbtn.place(x=150 , y=150, height=100, width = 100)
         
        
@@ -42,8 +42,8 @@ class Base_GUI:
         
 
         #texts within
-        self.label = tk.Label(self.root,text = "Look at the the card and mark yes if you know answer and no if you do not.", font = ('Arial', 18))
-
+        self.label = tk.Label(self.root,text = "Look at the card and mark yes if you know answer and no if you do not.\nCheck the boxes to show the score or randomize.Happy Learning!!\nPress the x in the corner when ready to leave.\n BEWARE: Randomizing to switch cards counts as shown cards against you.", font = ('Arial', 18))
+        self.label.config(bg='tan')
         self.label.pack(padx=20, pady =20)
 
         self.textbox = tk.Text(self.root, height = 3, font = ('Arial', 16))
@@ -58,15 +58,15 @@ class Base_GUI:
         self.buttonframe.columnconfigure(1 , weight =1) 
 
         self.flipbutn = tk.Button(self.buttonframe, text="Flip", font = ('Arial', 18), command=self.handle_flipclick)
-        self.flipbutn.config(bg= "red4")
+        self.flipbutn.config(bg= "red4" , fg= "linen")
         self.flipbutn.grid(row=0 ,column =0, sticky = tk.W + tk.E ,columnspan=2 , padx=10 ,pady=5)
 
         self.yesbutn = tk.Button(self.buttonframe, text="Yes", font = ('Arial', 18), command=self.handle_yesclick)
-        self.yesbutn.config(bg= "red4")
+        self.yesbutn.config(bg= "red4", fg= "linen")
         self.yesbutn.grid(row=1 , column =0 ,sticky = tk.W + tk.E, padx=10 ,pady=5)
 
         self.nobutn = tk.Button(self.buttonframe, text="No", font = ('Arial', 18), command=self.handle_noclick)
-        self.nobutn.config(bg= "red4")
+        self.nobutn.config(bg= "red4", fg= "linen")
         self.nobutn.grid(row=1 , column =1, sticky= tk.W + tk.E, padx=10 ,pady=5)
         
         self.buttonframe.pack(fill = 'x')
@@ -75,12 +75,13 @@ class Base_GUI:
         self.scorebtn = tk.Checkbutton(self.root, text = "Show Score!", variable=self.check_scorebutn)
         self.scorebtn.bind("<Button-1>", self.check_show_score)
         self.scorebtn.place(x=200 , y=300, heigh=100, width = 100)
-        
+        self.scorebtn.config(bg= "red4")
         self.score_label = tk.Label(self.root, text = self.score , font=('Arial', 12))
-        self.score_label.config(text=f'{self.score}/{self.card_amount}')
+        self.score_label.config(text=f'{self.score}/{self.card_amount}',bg= 'tan')
         
-        self.randomizerbtn = tk.Checkbutton(self.root, text = "Randomize cards", variable=self.check_randomization)
+        self.randomizerbtn = tk.Checkbutton(self.root, text = "Randomize \n cards", variable=self.check_randomization)
         self.randomizerbtn.bind("<Button-1>", self.check_randomization)
+        self.randomizerbtn.config(bg= "red4")
         self.randomizerbtn.place(x=600 , y=300, heigh=100, width = 100)
 
 
