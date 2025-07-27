@@ -12,6 +12,7 @@ class Base_GUI:
         self.current_card = self.cards[self.card_place]["question"]
         self.showing_question = True
         self.score = 0
+        self.card_amount=0
         
         #button Checks
         self.check_startbutn =  tk.BooleanVar()
@@ -66,7 +67,7 @@ class Base_GUI:
         self.scorebtn.place(x=200 , y=300, heigh=100, width = 100)
         
         self.score_label = tk.Label(self.root, text = self.score , font=('Arial', 12))
-        self.score_label.config(text=self.score)
+        self.score_label.config(text=f'{self.score}/{self.card_amount}')
         
         self.randomizerbtn = tk.Checkbutton(self.root, text = "Randomize cards", variable=self.check_randomization)
         self.randomizerbtn.bind("<Button-1>", self.check_randomization)
@@ -81,6 +82,7 @@ class Base_GUI:
     def update_textbox(self,text):
         self.textbox.delete('1.0', tk.END)
         self.textbox.insert('1.0', text)
+        self.score_label.config(text=f'{self.score}/{self.card_amount}')
 
 
 #Checkboxe functions
@@ -97,6 +99,7 @@ class Base_GUI:
             random.shuffle(self.cards)
             self.card_place = 0
             self.showing_question = True
+            self.card_amount +=1
             self.update_textbox(self.cards[self.card_place]["question"])
         
         else:
@@ -104,6 +107,7 @@ class Base_GUI:
             if self.card_place >= len(self.cards):
                 self.card_place = 0 
             self.showing_question = True
+            self.card_amount +=1
             self.update_textbox(self.cards[self.card_place]["question"])
 
 #click functionalities:        
@@ -115,6 +119,7 @@ class Base_GUI:
         if self.card_place >= len(self.cards):
              self.card_place = 0 
         self.showing_question = True
+        self.card_amount +=1
         self.update_textbox(self.cards[self.card_place]["question"]) 
 
     def handle_noclick(self,event=None):
@@ -122,6 +127,7 @@ class Base_GUI:
         if self.card_place >= len(self.cards):
             self.card_place = 0
         self.showing_question = True 
+        self.card_amount +=1
         self.update_textbox(self.cards[self.card_place]["question"])
     
     def handle_startclick(self, event=None):
