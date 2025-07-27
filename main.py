@@ -16,12 +16,15 @@ class Base_GUI:
         self.splash_root = tk.Toplevel()
         self.splash_root.title('Franklin Flash starting screen')
         self.splash_root.label = tk.Label(self.splash_root, text="Welcome to the Franklin Flash! Where learning about computers gets better with computers!", font = ('Arial',18))
-        self.splash_root.geometry("400x400")
+        self.splash_root.geometry("400x200")
         self.splash_root.config(bg= "tan")
         self.startbtn = tk.Button(self.splash_root, text= 'Get Started', font= ('Arial',18), command=self.handle_startclick)
         self.startbtn.config(bg= "red4", fg= "linen")
-        self.startbtn.place(x=150 , y=150, height=100, width = 100)
-        
+        self.startbtn.pack(fill='both')
+        self.startrandomizerbtn = tk.Checkbutton(self.splash_root, text = "Randomize \n cards", variable=self.check_startrandomization, selectcolor='red')
+        self.startrandomizerbtn.bind("<Button-1>", self.check_randomization)
+        self.startrandomizerbtn.config(bg= "red4", fg= "linen")
+        self.startrandomizerbtn.pack(fill='both')
        
 
         self.cards = flashcards_data
@@ -38,6 +41,7 @@ class Base_GUI:
         self.check_nobutn = tk.BooleanVar()
         self.check_flipbutn = tk.BooleanVar()
         self.check_randomizerbutn = tk.BooleanVar()
+        self.check_startrandomizerbutn = tk.BooleanVar()
         
         
 
@@ -72,16 +76,16 @@ class Base_GUI:
         self.buttonframe.pack(fill = 'x')
 
 #checkbox funtionality/buttons
-        self.scorebtn = tk.Checkbutton(self.root, text = "Show Score!", variable=self.check_scorebutn)
+        self.scorebtn = tk.Checkbutton(self.root, text = "Show Score!", variable=self.check_scorebutn, selectcolor='red')
         self.scorebtn.bind("<Button-1>", self.check_show_score)
         self.scorebtn.place(x=200 , y=300, heigh=100, width = 100)
-        self.scorebtn.config(bg= "red4")
+        self.scorebtn.config(bg= "red4", fg= "linen")
         self.score_label = tk.Label(self.root, text = self.score , font=('Arial', 12))
         self.score_label.config(text=f'{self.score}/{self.card_amount}',bg= 'tan')
         
-        self.randomizerbtn = tk.Checkbutton(self.root, text = "Randomize \n cards", variable=self.check_randomization)
+        self.randomizerbtn = tk.Checkbutton(self.root, text = "Randomize \n cards", variable=self.check_randomization, selectcolor='red')
         self.randomizerbtn.bind("<Button-1>", self.check_randomization)
-        self.randomizerbtn.config(bg= "red4")
+        self.randomizerbtn.config(bg= "red4", fg= "linen")
         self.randomizerbtn.place(x=600 , y=300, heigh=100, width = 100)
 
 
@@ -93,10 +97,10 @@ class Base_GUI:
     def update_textbox(self,text):
         self.textbox.delete('1.0', tk.END)
         self.textbox.insert('1.0', text)
-        self.score_label.config(text=f'{self.score}/{self.card_amount}',bg= 'tan')
+        self.score_label.config(text=f'{self.score}/{self.card_amount}',bg= 'tan', fg= "linen")
 
 
-#Checkboxe functions
+#Checkbox functions
     def check_show_score(self, event=None):
         if self.check_scorebutn.get() == 0:
             self.score_label.place(x=350,y=375)
@@ -104,8 +108,28 @@ class Base_GUI:
              self.score_label.place_forget()
              print(self.textbox.get('1.0', tk.END))
     
+    def check_startrandomization(self, event=None):
+        if  self.check_startrandomizerbutn.get() == 0:
+            import random
+            random.shuffle(self.cards)
+            self.card_place = 0
+            self.showing_question = True
+            self.update_textbox(self.cards[self.card_place]["question"])
+            self.randomizerbtn.toggle()
+            
+        
+        else:
+            self.card_place +=1
+            if self.card_place >= len(self.cards):
+                self.card_place = 0 
+            self.showing_question = True
+            self.update_textbox(self.cards[self.card_place]["question"])
+            self.randomizerbtn.toggle()
+            
+
+
     def check_randomization(self, event=None):
-        if  self.check_scorebutn.get() == 0:
+        if  self.check_randomizerbutn.get() == 0:
             import random
             random.shuffle(self.cards)
             self.card_place = 0
@@ -143,6 +167,8 @@ class Base_GUI:
     
     def handle_startclick(self, event=None):
          self.splash_root.destroy()
+         if self.check_startrandomizerbutn.get() == 0:
+            self.check_randomizerbutn.set(0)
          self.root.deiconify()
 
     def handle_flipclick(self,event=None):
