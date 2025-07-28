@@ -9,7 +9,7 @@ class Base_GUI:
         #size and name
         self.root.geometry("800x400")
         self.root.title("Franklin Flash")
-        self.root.config(bg= "tan")
+        self.root.config(bg= "tan", highlightbackground="red4", highlightcolor='red4')
         self.root.withdraw()
 
 #starter screen
@@ -17,12 +17,13 @@ class Base_GUI:
         self.splash_root.title('Franklin Flash starting screen')
         self.splash_root.label = tk.Label(self.splash_root, text="Welcome to the Franklin Flash! Where learning about computers gets better with computers!", font = ('Arial',18))
         self.splash_root.geometry("400x200")
-        self.splash_root.config(bg= "tan")
+        self.splash_root.config(bg= "tan", highlightbackground="red4", highlightcolor='red4')
         self.startbtn = tk.Button(self.splash_root, text= 'Get Started', font= ('Arial',18), command=self.handle_startclick)
         self.startbtn.config(bg= "red4", fg= "linen")
         self.startbtn.pack(fill='both')
-        self.startrandomizerbtn = tk.Checkbutton(self.splash_root, text = "Randomize \n cards", variable=self.check_startrandomization, selectcolor='red')
-        self.startrandomizerbtn.bind("<Button-1>", self.check_randomization)
+        self.check_startrandomizerbutn = tk.BooleanVar()
+        self.startrandomizerbtn = tk.Checkbutton(self.splash_root, text = "Randomize \n cards", variable=self.check_startrandomizerbutn, selectcolor='red')
+        self.startrandomizerbtn.bind("<Button-1>", self.check_startrandomization)
         self.startrandomizerbtn.config(bg= "red4", fg= "linen")
         self.startrandomizerbtn.pack(fill='both')
        
@@ -41,7 +42,7 @@ class Base_GUI:
         self.check_nobutn = tk.BooleanVar()
         self.check_flipbutn = tk.BooleanVar()
         self.check_randomizerbutn = tk.BooleanVar()
-        self.check_startrandomizerbutn = tk.BooleanVar()
+        
         
         
 
@@ -83,7 +84,7 @@ class Base_GUI:
         self.score_label = tk.Label(self.root, text = self.score , font=('Arial', 12))
         self.score_label.config(text=f'{self.score}/{self.card_amount}',bg= 'tan')
         
-        self.randomizerbtn = tk.Checkbutton(self.root, text = "Randomize \n cards", variable=self.check_randomization, selectcolor='red')
+        self.randomizerbtn = tk.Checkbutton(self.root, text = "Randomize \n cards", variable=self.check_randomizerbutn, selectcolor='red')
         self.randomizerbtn.bind("<Button-1>", self.check_randomization)
         self.randomizerbtn.config(bg= "red4", fg= "linen")
         self.randomizerbtn.place(x=600 , y=300, heigh=100, width = 100)
@@ -115,7 +116,7 @@ class Base_GUI:
             self.card_place = 0
             self.showing_question = True
             self.update_textbox(self.cards[self.card_place]["question"])
-            self.randomizerbtn.toggle()
+            self.check_randomizerbutn.set(1)
             
         
         else:
@@ -125,7 +126,7 @@ class Base_GUI:
             self.showing_question = True
             self.update_textbox(self.cards[self.card_place]["question"])
             self.randomizerbtn.toggle()
-            
+            self.check_randomizerbutn.set(0)
 
 
     def check_randomization(self, event=None):
@@ -166,10 +167,12 @@ class Base_GUI:
         self.update_textbox(self.cards[self.card_place]["question"])
     
     def handle_startclick(self, event=None):
-         self.splash_root.destroy()
-         if self.check_startrandomizerbutn.get() == 0:
+        self.splash_root.destroy()
+        if self.check_startrandomizerbutn.get() == 1:
+            self.check_randomizerbutn.set(1)
+        else:
             self.check_randomizerbutn.set(0)
-         self.root.deiconify()
+        self.root.deiconify()
 
     def handle_flipclick(self,event=None):
         if  self.showing_question:
@@ -181,8 +184,42 @@ class Base_GUI:
             self.showing_question= True
 
     def on_closing(self):
-        if messagebox.askyesno(title = "Done Studying?", message="Franklin thinks you need to keep studying, are you sure?" ):
+        dialog = tk.Toplevel()
+        dialog.title("Done Studying?")
+        dialog.geometry("350x120")
+        dialog.config(bg="tan")
+        dialog.resizable(False, False)
+    
+    # Center on parent window
+        try:
+            if self.splash_root.winfo_exists() and self.splash_root.winfo_viewable():
+                dialog.transient(self.splash_root)
+            else:
+                dialog.transient(self.root)
+        except tk.TclError:
+            dialog.transient(self.root)
+
+        dialog.grab_set()
+    
+    # Message
+        tk.Label(dialog, text="Franklin thinks you need to keep studying,\nare you sure?", 
+             bg="tan", font=('Arial', 12)).pack(pady=15)
+    
+    # Buttons
+        btn_frame = tk.Frame(dialog, bg="tan")
+        btn_frame.pack()
+    
+        def close_app():
+            dialog.destroy()  # Close dialog first
             self.root.destroy()
             self.splash_root.destroy()
-
+    
+        def cancel_close():
+            dialog.destroy()  # Just close the dialog
+    
+        tk.Button(btn_frame, text="Yes", command=close_app, 
+                  bg="red4", fg="linen", width=8).pack(side=tk.LEFT, padx=10)
+        tk.Button(btn_frame, text="No", command=cancel_close, 
+                  bg="red4", fg="linen", width=8).pack(side=tk.LEFT, padx=10)
+    
 Base_GUI()
