@@ -1,5 +1,4 @@
 import tkinter as tk
-from tkinter import messagebox
 from flashcards import flashcards_data  
 
 class Base_GUI:
