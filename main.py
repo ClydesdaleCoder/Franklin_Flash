@@ -7,7 +7,7 @@ class Base_GUI:
         self.root = tk.Tk()
          #Main app screen
         #size and name
-        self.root.geometry("800x400")
+        self.root.geometry("800x400+400+400")
         self.root.title("Franklin Flash")
         self.root.config(bg= "tan", highlightbackground="red4", highlightcolor='red4')
         self.root.withdraw()
@@ -16,7 +16,7 @@ class Base_GUI:
         self.splash_root = tk.Toplevel()
         self.splash_root.title('Franklin Flash starting screen')
         self.splash_root.label = tk.Label(self.splash_root, text="Welcome to the Franklin Flash! Where learning about computers gets better with computers!", font = ('Arial',18))
-        self.splash_root.geometry("400x200")
+        self.splash_root.geometry("400x200+400+400")
         self.splash_root.config(bg= "tan", highlightbackground="red4", highlightcolor='red4')
         self.startbtn = tk.Button(self.splash_root, text= 'Get Started', font= ('Arial',18), command=self.handle_startclick)
         self.startbtn.config(bg= "red4", fg= "linen")

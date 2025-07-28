@@ -6,5 +6,22 @@ flashcards_data =[
     {"question": "What does BIOS stand for?", "answer": "Basic Input/Output System"},
     {"question": "Who wrote the Linux Kernel?", "answer": "Linus Torvalds "},
     {"question": "What does TCP stand for?", "answer": "Transmission Control Protocol"},
-    {"question": "What does UDP stand for?", "answer": "User Datagram Protocol"}
+    {"question": "What does UDP stand for?", "answer": "User Datagram Protocol"},
+    {"question": "What does SSH stand for?", "answer": "Secure Shell"},
+    {"question": "What port is SSH?", "answer": "TCP 22"},
+    {"question": "What is this app named after?", "answer": "My dog,Fanklin"},
+    {"question": "What port is HTTP?", "answer": "TCP 88"},
+    {"question": "What does HTTP stand for?", "answer": "Hyper Text Transfer Protocol"},
+    {"question": "Is Python an interpreted language?", "answer": "Yes"},
+    {"question": "Is C an interpreted language?", "answer": "No"},
+    {"question": "What is the Capital of California?", "answer": "Sacramento"},
+    {"question": "What is the Capital of Texas?", "answer": "Austin"},
+    {"question": "What does CPU stand for?", "answer": "Central Proccessing Unit"},
+    {"question": "What does GPU stand for?", "answer": "Graphical Proccessing Unit"},
+    {"question": "What is the meaning of Life?", "answer": "42"},
+    {"question": "How do I get on my website?", "answer": " (; localhost:8888"},
+    {"question": "What ports do DHCP servers listen on?", "answer": " UDP 67"}, 
+    {"question": "What ports do DHCP clients listen on?", "answer": " UDP 68"}, 
+    {"question": "What does DHCP mean?", "answer": "Dynamic Host Configuration Protocol "},
+    {"question": "What does RAM stand for?", "answer": "Random Access Memory"}
 ]
